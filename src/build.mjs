@@ -20,9 +20,9 @@ const byId = Object.fromEntries(catalog.items.map(i => [i.id, i]));
 
 // Panel-only product details
 const P = {
-  'tatum-5-orbit-copy':       { vendor: 'Nikey | Password: 1', legend: 'Shoe size', h: 400, h160: 160 },
-  'tatum-5-orbit':            { vendor: 'Nikey | Password: 1', legend: 'Shoe size', h: 400, h160: 160 },
-  'air-jordan-12-retro-copy': { vendor: 'Nikey | Password: 1', legend: 'Shoe size', h: 400, h160: 160 },
+  'tatum-5-orbit-copy':       { vendor: 'Nike', legend: 'Shoe size', h: 400, h160: 160 },
+  'tatum-5-orbit':            { vendor: 'Nike', legend: 'Shoe size', h: 400, h160: 160 },
+  'air-jordan-12-retro-copy': { vendor: 'Nike', legend: 'Shoe size', h: 400, h160: 160 },
   'tshirt':          { vendor: 'Nike', legend: 'Size', h: 563, h160: 225 },
   'sweatshirt':      { vendor: 'Nike', legend: 'Size', h: 581, h160: 232 },
   'sweatshirt-plus': { vendor: 'Nike', legend: 'Size', h: 610, h160: 244 },
@@ -30,15 +30,16 @@ const P = {
   'hoodie-black':    { vendor: 'Nike', legend: 'Size', h: 536, h160: 214 },
 };
 
-const PIN_A = [[47, 27], [48, 58], [45, 96]];
-const PIN_B = [[50, 28], [48, 58], [45, 88]];
+// Each look lists [top, shoes] in that order, so pin 1 sits on the chest and pin 2 on the feet.
+const PIN_A = [[47, 30], [45, 96]];
+const PIN_B = [[50, 30], [45, 94]];
 const LOOKS = [
   { name: 'The City Edit',   key: 'bndthK', model: 1, pins: PIN_A, tags: {} },
   { name: 'Gallery Opening', key: 'XckgG6', model: 5, pins: PIN_B, tags: { 2: 'New' } },
-  { name: 'Gallery Opening', key: 'rLfAhC', model: 4, pins: PIN_B, tags: { 2: 'New' } },
-  { name: 'Studio Day',      key: 'FKg67q', model: 6, pins: PIN_B, tags: {} },
-  { name: 'Studio Day',      key: '8KREEE', model: 3, pins: PIN_B, tags: {} },
-  { name: 'Studio Day',      key: 'N3bfm9', model: 2, pins: PIN_B, tags: {} },
+  { name: 'Gallery Opening', key: 'rLfAhC', model: 4, pins: PIN_B, tags: {} },
+  { name: 'Studio Day',      key: 'FKg67q', model: 6, pins: PIN_B, tags: { 2: 'New' } },
+  { name: 'Studio Day',      key: '8KREEE', model: 3, pins: PIN_B, tags: { 1: 'New' } },
+  { name: 'Studio Day',      key: 'N3bfm9', model: 2, pins: PIN_B, tags: { 2: 'New' } },
 ].map((l, i) => ({ ...l, products: catalog.looks[i].products }));
 
 const SIZES = '(min-width: 1800px) 540px, (min-width: 750px) 420px, 320px';
@@ -102,7 +103,7 @@ const panels = LOOKS.map((l, i) => {
 </ul>
 <div class="rw__bundle has-rule">
 <p class="rw__msg" data-rw-msg role="status" aria-live="polite"></p>
-<div class="rw__bundle-row"><div class="rw__bundle-copy"><span class="rw__bundle-title">Complete the look</span><span class="rw__bundle-note">Bundle all ${l.products.length} and save 10%</span></div><div class="rw__bundle-price"><s>${money(total)}</s><strong>${money(bundle)}</strong></div></div>
+<div class="rw__bundle-row"><div class="rw__bundle-copy"><span class="rw__bundle-title">Complete the look</span><span class="rw__bundle-note">${l.products.length === 2 ? 'Bundle both' : `Bundle all ${l.products.length}`} and save 10%</span></div><div class="rw__bundle-price"><s>${money(total)}</s><strong>${money(bundle)}</strong></div></div>
 <button type="button" class="rw__cta" data-rw-all><span class="rw__cta-add">Add full look to bag</span><span class="rw__cta-m">Add full look — ${money(bundle)}</span><span class="rw__cta-done">Full look in your bag</span><svg class="rw__cta-arrow" width="22" height="12" viewBox="0 0 26 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h24M19 1l6 6-6 6"/></svg><svg class="rw__cta-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 3a9 9 0 1 1-9 9"/></svg></button>
 </div>
 <template data-rw-pieces-text>${l.products.length} pieces</template>
@@ -121,7 +122,7 @@ const html = `<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffffff">
 <title>Try the Look — Runway</title>
-<meta name="description" content="Six looks, styled head to toe. Explore the runway, isolate a look, and tap a pin to see the piece.">
+<meta name="description" content="Six looks, styled head to toe. Explore the runway, open a look, and tap a dot to shop the piece.">
 <link rel="preload" as="image" href="${A}model-1-640.webp" fetchpriority="high">
 <style>
 ${css}
@@ -137,7 +138,7 @@ ${css}
 <runway-section id="Runway-${SID}" class="rw rw--add-icon rw--popup rw--list has-dividers has-border" data-feel="balanced" data-blur="true" data-mblur="true" data-style="ring" data-mstyle="classic" data-fit="true" data-height-mode="original" data-height-vh="100" data-mheight-mode="custom" data-mheight-vh="109" data-reflect="false" data-autoplay="true" data-speed="5000" data-after-add="stay" data-bundle-code="" data-msg-choose="Pick a size for: [items]" data-msg-error="Couldn’t add to bag. Please try again." data-msg-soldout="Sold out" style="${tokens}">
 <div class="rw__sticky"><div class="rw__grid">
 <div class="rw__left">
-<div class="rw__head"><div class="rw__intro"><h2 class="rw__title">Try the Look.</h2><p class="rw__sub">Six looks, styled head to toe. Tap a pin to see the piece.</p></div><span class="rw__sr" aria-live="polite" aria-atomic="true" data-rw-live></span></div>
+<div class="rw__head"><div class="rw__intro"><h1 class="rw__title">Try the Look.</h1><p class="rw__sub">Six looks, styled head to toe. Tap a look to see every piece.</p></div><span class="rw__sr" aria-live="polite" aria-atomic="true" data-rw-live></span></div>
 <div class="rw__stage" data-rw-stage tabindex="0" role="region" aria-roledescription="carousel" aria-label="Try the Look. — use arrow keys or swipe to change look">
 <div class="rw__actors" data-rw-actors>${bodies}
 </div>
@@ -161,7 +162,7 @@ ${css}
 </div>
 </div>
 <div class="rw__panel has-rule"><div class="rw__panel-inner">
-<div class="rw__panel-head"><h3 class="rw__panel-title">In this look</h3><span class="rw__label" data-rw-pieces>3 pieces</span></div>${panels}
+<div class="rw__panel-head"><h3 class="rw__panel-title">In this look</h3><span class="rw__label" data-rw-pieces>${LOOKS[0].products.length} pieces</span></div>${panels}
 </div></div>
 </div></div>
 </runway-section>
