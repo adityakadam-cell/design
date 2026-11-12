@@ -5405,7 +5405,7 @@ none;
 >
   
 <p>
-        Have an account? <a href="https://nike-makknzjs.myshopify.com/customer_authentication/redirect?locale=en&region_country=US">Log in</a> to check out faster.
+        Have an account? <a href="./login.html">Log in</a> to check out faster.
       </p><a
       class="button cart-items__empty-button"
       href="./home.html"
@@ -5502,7 +5502,7 @@ none;
 >
   
 <p>
-        Have an account? <a href="https://nike-makknzjs.myshopify.com/customer_authentication/redirect?locale=en&region_country=US">Log in</a> to check out faster.
+        Have an account? <a href="./login.html">Log in</a> to check out faster.
       </p><a
       class="button cart-items__empty-button"
       href="./home.html"
@@ -6118,5 +6118,6 @@ none;
 
     
   
+<script>(function(){var here=(location.pathname.split('/').pop()||'home.html');var L='./login.html?from='+encodeURIComponent(here);document.querySelectorAll('a[href*="customer_authentication"],a[href*="/account"],a[href$="login.html"]').forEach(function(a){a.setAttribute('href',L);a.removeAttribute('target');});document.querySelectorAll('shopify-account').forEach(function(el){el.style.cursor='pointer';el.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();location.href=L;},true);});})();</script>
 </body>
 </html>
