@@ -112,7 +112,7 @@ const Bag = (() => {
         entries = entries.filter(x => x.id !== e.id);
         save(); render();
       });
-      const link = h('a', { href: url.href, target: '_blank', rel: 'noopener noreferrer', textContent: 'View original piece ↗' });
+      const link = h('a', { href: './home.html', textContent: 'View piece ↗' });
       list.append(h('div', { className: 'bag-row' }, [
         h('img', { src: item.image, alt: item.name, width: 60, height: 80, loading: 'lazy' }),
         h('div', {}, [
