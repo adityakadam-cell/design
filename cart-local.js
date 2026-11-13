@@ -141,6 +141,34 @@
   function openCart() { if (!el) build(); fill(); el.classList.add('open'); try { document.documentElement.style.overflow = 'hidden'; } catch (_) {} }
   function closeCart() { if (el) { el.classList.remove('open'); try { document.documentElement.style.overflow = ''; } catch (_) {} } }
 
+  /* ---------------- navigation router ----------------
+     Catches any link to a store route — including ones the page scripts set at
+     runtime (e.g. Nike Orbit's "View details", the wide-header "Sign In") — and
+     sends it to the local equivalent so nothing hits the store/password page. */
+  var PAGES = {
+    '/pages/nike-orbit': './nike-orbit.html',
+    '/pages/scene-rail': './hand-rail-pro.html',
+    '/pages/shoe-atelier': './shoe-atelier.html',
+    '/pages/runway': './index.html'
+  };
+  function mapLocal(p) {
+    if (PAGES[p]) return PAGES[p];
+    if (/^\/(account|customer_authentication)/.test(p))
+      return './login.html?from=' + encodeURIComponent(location.pathname.split('/').pop() || 'home.html');
+    return './home.html';   // products, search, collections, cart, root, other pages
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.closest('#nikey-cart')) return;
+    var url; try { url = new URL(a.href, location.href); } catch (_) { return; }
+    if (url.hostname !== 'nike-makknzjs.myshopify.com' && url.origin !== location.origin) return;
+    var p = url.pathname;
+    if (/\.html$/.test(p) || p.indexOf('/cdn/') === 0) return;         // local page / asset
+    if (!/^\/(products|collections|account|search|pages|cart|customer_authentication)(\/|$)/.test(p) && p !== '/') return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    location.href = mapLocal(p);
+  }, true);
+
   /* ---------------- header count ---------------- */
   function render() {
     var n = count();
