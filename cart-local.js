@@ -118,7 +118,8 @@
     el.querySelector('.nc-scrim').addEventListener('click', closeCart);
     el.querySelector('.nc-x').addEventListener('click', closeCart);
     el.querySelector('.nc-checkout').addEventListener('click', function () {
-      alert('This is a demo store — checkout isn’t available.');
+      if (!load().length) return;
+      location.href = './checkout.html';
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCart(); });
   }

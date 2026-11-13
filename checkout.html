@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>Checkout — Nikey</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{ --ink:#1b1b1b; --muted:#6c6762; --line:#e3e1de; --bg:#fff; --soft:#f6f5f3; --btn:#111; --accent:#1a1a1a; --err:#c0392b; }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .demo{background:#111;color:#fff;text-align:center;font-size:12.5px;padding:9px 16px;letter-spacing:.01em}
+  .demo b{font-weight:700}
+  .hd{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--line)}
+  .hd img{height:22px;display:block}
+  .hd .step{font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+  .wrap{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1.25fr 1fr;gap:0}
+  .col{padding:34px 40px}
+  .left{border-right:1px solid var(--line)}
+  .right{background:var(--soft)}
+  @media (max-width:860px){ .wrap{grid-template-columns:1fr} .left{border-right:0} .right{order:-1;border-bottom:1px solid var(--line)} .col{padding:24px 20px} }
+  h2{font-size:16px;margin:0 0 14px;font-weight:700}
+  .sec{margin-bottom:30px}
+  .row{display:flex;gap:12px}
+  .row>*{flex:1}
+  .fld{margin-bottom:12px}
+  label{display:block;font-size:12px;color:var(--muted);margin:0 0 6px;font-weight:600;letter-spacing:.02em}
+  input,select{width:100%;height:46px;padding:0 13px;font-size:14px;color:var(--ink);background:#fff;border:1px solid #cdcac6;border-radius:6px;outline:none;font-family:inherit}
+  input:focus,select:focus{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+  .pay{border:1px solid #cdcac6;border-radius:8px;overflow:hidden}
+  .pay .pay-head{display:flex;align-items:center;justify-content:space-between;background:var(--soft);padding:12px 14px;font-size:13px;font-weight:600;border-bottom:1px solid #e6e4e1}
+  .pay .pay-body{padding:14px}
+  .pay-body .fld:last-child{margin-bottom:0}
+  .pay-note{font-size:11px;color:var(--muted);margin:10px 2px 0;line-height:1.5}
+  .pay-brands{font-size:11px;color:#999}
+  button.place{width:100%;height:54px;margin-top:8px;border:0;border-radius:8px;background:var(--btn);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+  button.place:hover{background:#000}
+  .back{display:inline-block;margin-top:16px;font-size:13px;color:var(--muted);text-decoration:none}
+  .back:hover{color:var(--ink)}
+  /* summary */
+  .items{margin:0 0 18px;padding:0;list-style:none}
+  .it{display:grid;grid-template-columns:54px 1fr auto;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+  .it .thumb{position:relative;width:54px;height:64px;background:#ece9e6;border-radius:6px;overflow:hidden}
+  .it .thumb img{width:100%;height:100%;object-fit:contain}
+  .it .thumb .q{position:absolute;top:-8px;right:-8px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#6b6b6b;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+  .it .t{font-size:13px;font-weight:600;margin:0}
+  .it .s{font-size:12px;color:var(--muted);margin:3px 0 0}
+  .it .p{font-size:13px;font-weight:600}
+  .tot{font-size:13px}
+  .tot .line{display:flex;justify-content:space-between;margin:9px 0}
+  .tot .grand{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:18px;font-weight:700}
+  .tot .grand .cur{font-size:12px;color:var(--muted);font-weight:600;margin-right:6px}
+  .empty{padding:60px 0;text-align:center;color:var(--muted)}
+  .empty a{display:inline-block;margin-top:14px;background:#111;color:#fff;text-decoration:none;padding:12px 22px;border-radius:6px;font-size:14px;font-weight:600}
+  /* confirmation */
+  #done{position:fixed;inset:0;background:rgba(255,255,255,.97);display:none;place-items:center;text-align:center;padding:24px;z-index:50}
+  #done.show{display:grid}
+  #done .ok{width:64px;height:64px;border-radius:50%;background:#111;color:#fff;display:grid;place-items:center;margin:0 auto 20px;font-size:30px}
+  #done h1{font-size:26px;margin:0 0 8px}
+  #done p{color:var(--muted);margin:0 0 6px;font-size:15px}
+  #done .no{font-size:12px;margin-top:14px}
+  #done a{display:inline-block;margin-top:22px;background:#111;color:#fff;text-decoration:none;padding:13px 26px;border-radius:7px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="demo">This is a <b>demo store</b> — don’t enter real card details. No payment is taken and no order is placed.</div>
+<header class="hd">
+  <a href="./home.html" aria-label="Nikey home"><img src="https://nike-makknzjs.myshopify.com/cdn/shop/files/Logo_NIKE.svg?height=48&v=1789911219" alt="Nike"></a>
+  <span class="step">Secure checkout</span>
+</header>
+
+<div id="checkout" class="wrap">
+  <section class="col left">
+    <form id="order-form" novalidate>
+      <div class="sec">
+        <h2>Contact</h2>
+        <div class="fld"><label for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+      </div>
+      <div class="sec">
+        <h2>Delivery</h2>
+        <div class="row"><div class="fld"><label for="fn">First name</label><input id="fn" autocomplete="given-name" required></div>
+          <div class="fld"><label for="ln">Last name</label><input id="ln" autocomplete="family-name" required></div></div>
+        <div class="fld"><label for="addr">Address</label><input id="addr" autocomplete="address-line1" required></div>
+        <div class="row"><div class="fld"><label for="city">City</label><input id="city" autocomplete="address-level2" required></div>
+          <div class="fld"><label for="zip">PIN / ZIP</label><input id="zip" autocomplete="postal-code" inputmode="numeric" required></div></div>
+        <div class="row"><div class="fld"><label for="country">Country / region</label>
+            <select id="country"><option>India</option><option>United States</option><option>United Kingdom</option><option>Canada</option><option>Australia</option></select></div>
+          <div class="fld"><label for="phone">Phone</label><input id="phone" autocomplete="tel" inputmode="tel"></div></div>
+      </div>
+      <div class="sec">
+        <h2>Payment</h2>
+        <div class="pay">
+          <div class="pay-head"><span>Card</span><span class="pay-brands">VISA · Mastercard · Amex</span></div>
+          <div class="pay-body">
+            <div class="fld"><label for="card">Card number</label><input id="card" inputmode="numeric" placeholder="4242 4242 4242 4242" autocomplete="off"></div>
+            <div class="row"><div class="fld"><label for="exp">Expiry (MM / YY)</label><input id="exp" placeholder="12 / 28" autocomplete="off"></div>
+              <div class="fld"><label for="cvc">CVC</label><input id="cvc" inputmode="numeric" placeholder="123" autocomplete="off"></div></div>
+            <div class="fld" style="margin-bottom:0"><label for="nameoncard">Name on card</label><input id="nameoncard" autocomplete="off"></div>
+          </div>
+        </div>
+        <p class="pay-note">Demo only — the card fields aren’t processed, validated or stored. Leave them blank or type anything.</p>
+      </div>
+      <button type="submit" class="place" id="place">Pay <span id="pay-amt"></span></button>
+      <a class="back" href="./home.html">← Continue shopping</a>
+    </form>
+  </section>
+
+  <aside class="col right">
+    <h2>Order summary</h2>
+    <ul class="items" id="sum-items"></ul>
+    <div class="tot" id="sum-tot"></div>
+  </aside>
+</div>
+
+<div id="done">
+  <div>
+    <div class="ok">✓</div>
+    <h1>Thank you!</h1>
+    <p>Your demo order has been placed.</p>
+    <p id="done-id"></p>
+    <p class="no">No payment was taken — this is a demo store.</p>
+    <a href="./home.html">Back to store</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  var KEY = 'nikey-cart-v1';
+  function load() { try { var a = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (_) { return []; } }
+  function money(v) { try { return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(v); } catch (_) { return '$' + Number(v).toFixed(2); } }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  var cart = load();
+  var itemsEl = document.getElementById('sum-items');
+  var totEl = document.getElementById('sum-tot');
+  var wrap = document.getElementById('checkout');
+
+  if (!cart.length) {
+    wrap.innerHTML = '<div class="empty" style="grid-column:1/-1">Your cart is empty.<br><a href="./home.html">Return to store</a></div>';
+    return;
+  }
+
+  var subtotal = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
+  var shipping = 0; // free
+  var total = subtotal + shipping;
+
+  itemsEl.innerHTML = cart.map(function (i) {
+    return '<li class="it"><span class="thumb">' + (i.image ? '<img src="' + i.image + '" alt="">' : '') + '<span class="q">' + i.qty + '</span></span>' +
+      '<div><p class="t">' + esc(i.title) + '</p><p class="s">' + (i.size ? 'Size ' + esc(i.size) : '') + '</p></div>' +
+      '<span class="p">' + money(i.price * i.qty) + '</span></li>';
+  }).join('');
+
+  totEl.innerHTML =
+    '<div class="line"><span>Subtotal</span><span>' + money(subtotal) + '</span></div>' +
+    '<div class="line"><span>Shipping</span><span>Free</span></div>' +
+    '<div class="grand"><span>Total</span><span><span class="cur">USD</span>' + money(total) + '</span></div>';
+  document.getElementById('pay-amt').textContent = money(total);
+
+  // light formatting helpers (cosmetic only)
+  var card = document.getElementById('card');
+  card.addEventListener('input', function () {
+    var v = card.value.replace(/\D/g, '').slice(0, 19).replace(/(.{4})/g, '$1 ').trim();
+    card.value = v;
+  });
+
+  document.getElementById('order-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    // minimal required-field check (ignores card entirely)
+    var need = ['email', 'fn', 'ln', 'addr', 'city', 'zip'];
+    for (var k = 0; k < need.length; k++) {
+      var el = document.getElementById(need[k]);
+      if (!el.value.trim()) { el.focus(); el.style.borderColor = '#c0392b'; return; }
+    }
+    try { localStorage.removeItem(KEY); } catch (_) {}
+    document.getElementById('done-id').textContent = 'Order #NK-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+    document.getElementById('done').classList.add('show');
+    window.scrollTo(0, 0);
+  });
+})();
+</script>
+</body>
+</html>
