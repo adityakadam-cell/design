@@ -16,6 +16,10 @@ const money = v => '$' + v.toFixed(2);
 const catalog = JSON.parse(read('native-catalog.json'));
 catalog.looks.forEach(l => { l.image = A + l.image.replace(/^assets\//, ''); });
 catalog.items.forEach(i => { i.image = A + i.image.replace(/^assets\//, ''); });
+// Drop store URLs from the embedded data — unused, and keeps the page free of
+// any Shopify links. Product images still load from the public CDN.
+delete catalog.source;
+catalog.items.forEach(i => { delete i.url; });
 const byId = Object.fromEntries(catalog.items.map(i => [i.id, i]));
 
 // Panel-only product details

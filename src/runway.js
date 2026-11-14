@@ -3,7 +3,6 @@
 
 const CATALOG = __CATALOG__;
 const BAG_KEY = 'runway-styling-bag-v3';
-const SHOP_HOST = 'nike-makknzjs.myshopify.com';
 const RM = matchMedia('(prefers-reduced-motion: reduce)');
 const FINE = matchMedia('(hover: hover) and (pointer: fine)');
 const TAU = Math.PI * 2;
@@ -103,8 +102,6 @@ const Bag = (() => {
       const f = find(cat, e.id);
       if (!f) continue;
       const { item, variant } = f;
-      const url = new URL(item.url);
-      if (url.hostname !== SHOP_HOST) throw new Error('Unexpected product link.');
       total += item.price * e.quantity;
       const remove = h('button', { type: 'button', textContent: '×' });
       remove.setAttribute('aria-label', 'Remove ' + item.name);
@@ -132,7 +129,7 @@ const Bag = (() => {
     for (const e of entries) {
       const f = find(cat, e.id);
       if (!f) continue;
-      parts.push(`${f.item.name} · Size ${f.variant.o.join(' / ')} · Quantity ${e.quantity}\n${f.item.url}`);
+      parts.push(`${f.item.name} · Size ${f.variant.o.join(' / ')} · Quantity ${e.quantity}`);
     }
     const blob = new Blob([parts.join('\n\n')], { type: 'text/plain;charset=utf-8' });
     const a = document.createElement('a');
